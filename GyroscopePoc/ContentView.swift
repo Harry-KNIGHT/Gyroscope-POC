@@ -14,22 +14,24 @@ struct ContentView: View {
 
 	let motion = CMMotionManager()
 
-	let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+	let timer = Timer.publish(every: 0.2, on: .main, in: .common).autoconnect()
 
 	var body: some View {
 		VStack {
-			Text("Hello, world!")
-				.offset(x: self.x, y: self.y)
+			Text("Hello, World!")
+				.offset(x: x * 200, y: y * 200)
 		}
 		.onAppear(perform: {
 			motion.startGyroUpdates()
 		})
-		.onReceive(timer, perform: { newValue in
-			if let data = motion.gyroData {
-				self.x = data.rotationRate.x
-				self.y = data.rotationRate.y
-			} else {
-				print("--- NO GYRO DATA ---")
+		.onReceive(timer, perform: { _ in
+			withAnimation {
+				if let data = motion.gyroData {
+					self.x = data.rotationRate.x
+					self.y = data.rotationRate.y
+				} else {
+					print("--- NO GYRO DATA ---")
+				}
 			}
 		})
 	}
