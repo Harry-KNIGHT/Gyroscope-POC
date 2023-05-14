@@ -19,7 +19,7 @@ struct ContentView: View {
 	var body: some View {
 		VStack {
 			Text("Hello, World!")
-				.offset(x: x * 200, y: y * 200)
+				.offset(x: x * UIScreen.main.bounds.size.height, y: y * UIScreen.main.bounds.size.width)
 		}
 		.onAppear(perform: {
 			motion.startGyroUpdates()
